@@ -1,0 +1,25 @@
+version: '3.3'
+
+services: 
+  simulator: ## turtle bot GUI
+    image: osrf/ros:humble-desktop-full
+    # devices:
+    #   - /dev/dri
+    container_name: ros_turtlebot_sim
+    # build:
+    #   dockerfile: ./Dockerfile
+    # network_mode: host
+    environment:
+      - 'DISPLAY=host.docker.internal:0.0'
+    volumes:
+      - '$HOME/.Xauthority:/root/.Xauthority:ro'
+      - '$HOME/ros/lab4/ros2_ws:/root/ros_ws/'
+    command: ros2 run turtlesim turtlesim_node
+  tooling:
+    build:
+      dockerfile: ./Dockerfile
+    container_name: ros_tools
+    # network_mode: host
+    volumes:
+      - '$HOME/ros/lab4/ros2_ws:/root/ros_ws'
+    command: "tail -f /dev/null"
